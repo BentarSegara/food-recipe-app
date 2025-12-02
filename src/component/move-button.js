@@ -1,19 +1,13 @@
 import { ChevronLeft, ChevronRight } from "lucide-react-native";
-import React, { useEffect, useState } from "react";
-import {
-  Pressable,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  useWindowDimensions,
-  View,
-} from "react-native";
+import React from "react";
+import { Pressable, StyleSheet, useWindowDimensions } from "react-native";
 
-const MoveButton = ({ move, onPress }) => {
+const MoveButton = ({ move, onPress, disabled }) => {
   const { width, height } = useWindowDimensions();
   const Icon = move === "next" ? ChevronRight : ChevronLeft;
   return (
     <Pressable
+      disabled={disabled ?? false}
       style={({ pressed }) => [
         styles.button,
         {

@@ -41,7 +41,6 @@ const CustomDrawer = (props) => {
           alignItems: "center",
           borderTopWidth: 0.5,
           borderColor: "#6B7280",
-          //   backgroundColor: "red",
         }}
       >
         <Text style={{ fontWeight: "400", color: "#6B7280" }}>

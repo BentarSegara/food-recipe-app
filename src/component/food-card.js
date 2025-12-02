@@ -1,6 +1,6 @@
 import { useNavigation } from "@react-navigation/native";
 import { MapPin, Tag } from "lucide-react-native";
-import React, { useEffect } from "react";
+import React from "react";
 import {
   Image,
   Text,
@@ -12,11 +12,12 @@ import {
 const FoodCard = ({ food }) => {
   const navigation = useNavigation();
   const { width, height } = useWindowDimensions();
+  const attributeCount = Object.keys(food).length;
   return (
     <View
       style={{
         width: width * 0.45,
-        height: height * 0.3,
+        height: height * (attributeCount > 3 ? 0.3 : 0.2),
         marginRight: 8,
         marginBottom: 15,
         elevation: 5,
@@ -34,27 +35,43 @@ const FoodCard = ({ food }) => {
       >
         <Image style={{ flex: 1 }} source={{ uri: food.thumbnail }} />
       </View>
-      <View style={{ flex: 1, padding: 5 }}>
-        <View>
-          <Text
-            numberOfLines={1}
-            style={{ fontWeight: "bold", color: "#1F2937" }}
-          >
-            {food.meal}
-          </Text>
-        </View>
-        <View style={{ marginVertical: 5 }}>
-          <View style={{ flexDirection: "row", alignItems: "center" }}>
-            <Tag size={12} color={"#FB923C"} />
-            <Text style={{ fontSize: 12 }}> {food.category}</Text>
+      <View style={{ flex: 1, padding: 5, justifyContent: "center" }}>
+        <View style={{ marginBottom: 5 }}>
+          <View>
+            <Text
+              numberOfLines={1}
+              style={{
+                fontWeight: "bold",
+                color: "#1F2937",
+                textAlign: "center",
+              }}
+            >
+              {food.meal}
+            </Text>
           </View>
-          <View style={{ flexDirection: "row", alignItems: "center" }}>
-            <MapPin size={12} color={"#FB923C"} />
-            <Text style={{ fontSize: 12 }}> {food.area}</Text>
-          </View>
+          {food.category && food.area && (
+            <View style={{ marginTop: 5 }}>
+              <View style={{ flexDirection: "row", alignItems: "center" }}>
+                <Tag size={12} color={"#FB923C"} />
+                <Text style={{ fontSize: 12 }}> {food.category}</Text>
+              </View>
+              <View style={{ flexDirection: "row", alignItems: "center" }}>
+                <MapPin size={12} color={"#FB923C"} />
+                <Text style={{ fontSize: 12 }}> {food.area}</Text>
+              </View>
+            </View>
+          )}
         </View>
+
         <TouchableOpacity
-          onPress={() => navigation.navigate("Detail", { meal: food })}
+          onPress={() =>
+            navigation.navigate("Detail", {
+              screen: "DetailPage",
+              params: {
+                meal: food,
+              },
+            })
+          }
           style={{
             padding: 5,
             borderRadius: 5,

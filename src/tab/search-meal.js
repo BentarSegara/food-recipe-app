@@ -1,4 +1,3 @@
-import { Menu, Search, Utensils } from "lucide-react-native";
 import React, { useEffect, useState } from "react";
 import {
   ActivityIndicator,
@@ -11,51 +10,43 @@ import {
   useWindowDimensions,
   View,
 } from "react-native";
-import FoodCard from "../component/food-card";
-import { getMeals } from "../request/request-meal";
 import Pagination from "../component/pagination";
+import { Menu, Search, Utensils } from "lucide-react-native";
+import FoodCard from "../component/food-card";
+import { getFilteredMeal, getMeals } from "../request/request-meal";
 
-const Home = ({ navigation }) => {
+const FilteredMeals = ({ navigation, route }) => {
+  const { filter, filterValue } = route.params;
   const { width, height } = useWindowDimensions();
-  const [currIndex, setCurrIndex] = useState(0);
-  const alphabet = [
-    "A",
-    "B",
-    "C",
-    "D",
-    "E",
-    "F",
-    "G",
-    "H",
-    "I",
-    "J",
-    "K",
-    "L",
-    "M",
-    "N",
-    "O",
-    "P",
-    "Q",
-    "R",
-    "S",
-    "T",
-    "U",
-    "V",
-    "W",
-    "X",
-    "Y",
-    "Z",
-  ];
+  const [currIndex, setCurrIndex] = useState([0, 10]);
 
   const [isLoading, setIsLoading] = useState(false);
   const [meals, setMeals] = useState([]);
+  const [viewedList, setViewList] = useState([]);
+
+  const decrement = (incNum) => currIndex.map((x) => x - incNum);
+  const increment = (incNum) => currIndex.map((x) => x + incNum);
+
+  const previousPage = () => {
+    if (currIndex[0] > 0) {
+      setCurrIndex(decrement(10));
+      setViewList(meals.slice(...decrement(10)));
+    }
+  };
+  const nextPage = () => {
+    if (currIndex[1] < meals.length) {
+      setCurrIndex(increment(10));
+      setViewList(meals.slice(...increment(10)));
+    }
+  };
 
   useEffect(() => {
     const getTheMeals = async () => {
       setIsLoading(true);
       try {
-        const mealList = await getMeals("f", alphabet[currIndex]);
+        const mealList = await getFilteredMeal(filter, filterValue);
         setMeals(mealList);
+        setViewList(mealList.slice(...currIndex));
       } catch (err) {
         console.error(err);
       } finally {
@@ -63,7 +54,11 @@ const Home = ({ navigation }) => {
       }
     };
     getTheMeals();
-  }, [currIndex]);
+  }, []);
+
+  const paginateSymbol = [...Array(Math.ceil(meals.length / 10)).keys()].map(
+    (idx) => idx + 1
+  );
 
   return (
     <View style={{ flex: 1, backgroundColor: "#FFFFFF" }}>
@@ -165,22 +160,18 @@ const Home = ({ navigation }) => {
 
         <FlatList
           numColumns={2}
-          data={meals}
+          data={viewedList}
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => <FoodCard food={item} />}
         />
       </View>
       <Pagination
-        data={alphabet}
-        onMoveBack={() => {
-          if (currIndex > 0) setCurrIndex(currIndex - 1);
-        }}
-        onMoveNext={() => {
-          if (currIndex + 1 < alphabet.length - 1) setCurrIndex(currIndex + 1);
-        }}
+        data={paginateSymbol}
+        onMoveBack={previousPage}
+        onMoveNext={nextPage}
       />
     </View>
   );
 };
 
-export default Home;
+export default FilteredMeals;

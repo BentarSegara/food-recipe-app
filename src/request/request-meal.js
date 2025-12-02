@@ -35,12 +35,36 @@ const cleanedMeal = (meal) => ({
   ingredients: ingredients(meal),
 });
 
-const cleanMeals = (meals) => meals.map((meal) => cleanedMeal(meal));
+const filteredMeal = (meal) => ({
+  id: meal.idMeal,
+  meal: meal.strMeal,
+  thumbnail: meal.strMealThumb,
+});
 
-export const getMeals = async (letter) => {
+const cleanMeals = (meals) => meals.map((meal) => cleanedMeal(meal));
+const filteredMeals = (meals) => meals.map((meal) => filteredMeal(meal));
+
+export const getFilteredMeal = async (filter, filterValue) => {
   try {
     const response = await request({
-      url: `https://www.themealdb.com/api/json/v1/1/search.php?f=${letter}`,
+      url: `https://www.themealdb.com/api/json/v1/1/filter.php?${filter}=${filterValue}`,
+      method: "get",
+    });
+    if (response.statusCode != 200) {
+      throw new Error(`Gagal mengambil data, status code: ${statusCode}`);
+    }
+
+    const { meals } = response.data;
+    return filteredMeals(meals);
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+export const getMeals = async (filter, letter) => {
+  try {
+    const response = await request({
+      url: `https://www.themealdb.com/api/json/v1/1/search.php?${filter}=${letter}`,
       method: "get",
     });
     if (response.statusCode != 200) {

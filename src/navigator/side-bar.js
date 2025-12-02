@@ -3,14 +3,10 @@ import React from "react";
 import Home from "../tab/home";
 import BookMark from "../tab/bookmark";
 import About from "../tab/about";
-import {
-  BookmarkPlus,
-  BookmarkPlusIcon,
-  HomeIcon,
-  InfoIcon,
-} from "lucide-react-native";
-import { Text, useWindowDimensions, View } from "react-native";
+import { BookmarkPlusIcon, HomeIcon, InfoIcon } from "lucide-react-native";
+import { useWindowDimensions } from "react-native";
 import CustomDrawer from "../component/custom-drawer";
+import StackNavigator from "./stack-bar";
 
 const Drawer = createDrawerNavigator();
 const SideBar = () => {
@@ -38,6 +34,12 @@ const SideBar = () => {
       })}
     >
       <Drawer.Screen name="Home" component={Home} />
+      <Drawer.Screen
+        name="Detail"
+        component={StackNavigator}
+        options={{ drawerItemStyle: { display: "none" } }}
+      />
+
       <Drawer.Screen name="BookMark" component={BookMark} />
       <Drawer.Screen name="About" component={About} />
     </Drawer.Navigator>

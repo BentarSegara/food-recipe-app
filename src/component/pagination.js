@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { View } from "react-native";
 import PageButton from "./page-button";
-import { ChevronLeft, ChevronRight } from "lucide-react-native";
 import MoveButton from "./move-button";
 
 const Pagination = ({ style, data, onMoveNext, onMoveBack }) => {
@@ -39,6 +38,7 @@ const Pagination = ({ style, data, onMoveNext, onMoveBack }) => {
       }}
     >
       <MoveButton
+        disabled={data.length > 1 ? false : true}
         onPress={() => {
           move("previous");
           onMoveBack();
@@ -54,16 +54,19 @@ const Pagination = ({ style, data, onMoveNext, onMoveBack }) => {
       >
         {data[currIndex]}
       </PageButton>
-      <PageButton
-        active={activeButtons[1]}
-        onPress={() => {
-          switchActive("right");
-          onMoveNext();
-        }}
-      >
-        {data[currIndex + 1]}
-      </PageButton>
+      {data.length > 1 && (
+        <PageButton
+          active={activeButtons[1]}
+          onPress={() => {
+            switchActive("right");
+            onMoveNext();
+          }}
+        >
+          {data[currIndex + 1]}
+        </PageButton>
+      )}
       <MoveButton
+        disabled={data.length > 1 ? false : true}
         onPress={() => {
           move("next");
           onMoveNext();

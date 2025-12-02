@@ -6,28 +6,45 @@ import {
 } from "lucide-react-native";
 import React, { useEffect, useState } from "react";
 import {
-  FlatList,
+  ActivityIndicator,
   Image,
   ImageBackground,
+  Modal,
   Pressable,
   ScrollView,
   Text,
   useWindowDimensions,
   View,
 } from "react-native";
+import { getMeals } from "../request/request-meal";
 
 const Detail = ({ route, navigation }) => {
   const ingThumbBaseURL =
     "https://www.themealdb.com/images/ingredients/{}-small.png";
   const { width, height } = useWindowDimensions();
   const [isFavorite, setFavorite] = useState(false);
-  const { meal } = route.params;
-  // useEffect(() => {
-  //   meal.ingredients.map((ingredient) => {
-  //     const urlThumb = ingThumbBaseURL.replace("{}", ingredient.urlName);
-  //     console.log(urlThumb);
-  //   });
-  // }, []);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const [meal, setMeal] = useState(route.params.meal);
+
+  useEffect(() => {
+    console.log("Meal: ", meal);
+    if (Object.keys(meal).length === 3) {
+      const getMealDetail = async () => {
+        setIsLoading(true);
+        try {
+          const mealDetail = await getMeals("s", meal.meal);
+          setMeal(mealDetail[0]);
+          console.log(mealDetail);
+        } catch (err) {
+          console.error(err);
+        } finally {
+          setIsLoading(false);
+        }
+      };
+      getMealDetail();
+    }
+  }, []);
   return (
     <View style={{ flex: 1, backgroundColor: "#FFEDD5" }}>
       <View
@@ -49,12 +66,43 @@ const Detail = ({ route, navigation }) => {
           </Text>
         </View>
       </View>
+      <Modal transparent={true} visible={isLoading}>
+        <View
+          style={{
+            flex: 1,
+            justifyContent: "center",
+            alignItems: "center",
+            backgroundColor: "rgba(0, 0, 0, 0.5)",
+          }}
+        >
+          <View
+            style={{
+              width: width * 0.8,
+              height: height * 0.2,
+              borderRadius: 10,
+              justifyContent: "center",
+              alignItems: "center",
+              backgroundColor: "#1e293b",
+            }}
+          >
+            <View style={{ marginBottom: 15 }}>
+              <Text style={{ fontSize: 16, color: "#f1f5f9" }}>
+                Loading Meals
+              </Text>
+            </View>
+            <View>
+              <ActivityIndicator color={"#F97316"} size={"large"} />
+            </View>
+          </View>
+        </View>
+      </Modal>
       <ScrollView>
         <ImageBackground
           style={{
             height: height * 0.25,
             backgroundColor: "red",
           }}
+          imageStyle={{ flex: 1 }}
           source={{ uri: meal.thumbnail }}
         >
           <View
@@ -82,7 +130,13 @@ const Detail = ({ route, navigation }) => {
               </Pressable>
             </View>
             <View style={{ marginVertical: 15, flexDirection: "row" }}>
-              <View
+              <Pressable
+                onPress={() =>
+                  navigation.navigate("FilteredMeals", {
+                    filter: "c",
+                    filterValue: meal.category,
+                  })
+                }
                 style={{
                   width: width * 0.2,
                   marginRight: 10,
@@ -93,8 +147,14 @@ const Detail = ({ route, navigation }) => {
                 }}
               >
                 <Text style={{ color: "#FFFFFF" }}>{meal.category}</Text>
-              </View>
-              <View
+              </Pressable>
+              <Pressable
+                onPress={() =>
+                  navigation.navigate("FilteredMeals", {
+                    filter: "a",
+                    filterValue: meal.area,
+                  })
+                }
                 style={{
                   width: width * 0.25,
                   marginRight: 10,
@@ -105,7 +165,7 @@ const Detail = ({ route, navigation }) => {
                 }}
               >
                 <Text style={{ color: "#1F2937" }}>{meal.area}</Text>
-              </View>
+              </Pressable>
             </View>
           </View>
         </ImageBackground>
@@ -119,44 +179,52 @@ const Detail = ({ route, navigation }) => {
               Bahan - Bahan
             </Text>
           </View>
-          {meal.ingredients.map((item, index) => (
-            <View
-              key={index}
-              style={{
-                paddingVertical: 15,
-                borderBottomWidth: 0.2,
-                borderBottomColor: "#6B7280",
-                flexDirection: "row",
-                justifyContent: "space-between",
-                alignItems: "center",
-              }}
-            >
-              <View style={{ flexDirection: "row", alignItems: "center" }}>
-                <View
-                  style={{
-                    width: 30,
-                    height: 30,
-                    marginRight: 5,
-                  }}
-                >
-                  <Image
-                    style={{ flex: 1 }}
-                    source={{
-                      uri: ingThumbBaseURL.replace("{}", item.urlName),
+          {meal.ingredients &&
+            meal.ingredients.map((item, index) => (
+              <View
+                key={index}
+                style={{
+                  paddingVertical: 15,
+                  borderBottomWidth: 0.2,
+                  borderBottomColor: "#6B7280",
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                }}
+              >
+                <View style={{ flexDirection: "row", alignItems: "center" }}>
+                  <View
+                    style={{
+                      width: 30,
+                      height: 30,
+                      marginRight: 5,
                     }}
-                  />
+                  >
+                    <Image
+                      style={{ flex: 1 }}
+                      source={{
+                        uri: ingThumbBaseURL.replace("{}", item.urlName),
+                      }}
+                    />
+                  </View>
+                  <Pressable
+                    onPress={() =>
+                      navigation.navigate("FilteredMeals", {
+                        filter: "i",
+                        filterValue: item.ingredient,
+                      })
+                    }
+                  >
+                    <Text style={{ fontWeight: "500" }}>{item.ingredient}</Text>
+                  </Pressable>
                 </View>
                 <View>
-                  <Text style={{ fontWeight: "500" }}>{item.ingredient}</Text>
+                  <Text style={{ fontWeight: "bold", color: "#F97316" }}>
+                    {item.measure}
+                  </Text>
                 </View>
               </View>
-              <View>
-                <Text style={{ fontWeight: "bold", color: "#F97316" }}>
-                  {item.measure}
-                </Text>
-              </View>
-            </View>
-          ))}
+            ))}
         </View>
 
         <View style={{ padding: 15, backgroundColor: "#FFFFFF" }}>
@@ -173,26 +241,27 @@ const Detail = ({ route, navigation }) => {
               Cara Membuat
             </Text>
           </View>
-          {meal.instructions.map(
-            (item, index) =>
-              item !== "" && (
-                <View
-                  key={index}
-                  style={{
-                    paddingVertical: 5,
-                    flexDirection: "row",
-                    justifyContent: "space-between",
-                  }}
-                >
-                  <Text>
-                    <Text style={{ fontWeight: "bold", color: "#F97316" }}>
-                      {index + 1}.
-                    </Text>{" "}
-                    {item}
-                  </Text>
-                </View>
-              )
-          )}
+          {meal.instructions &&
+            meal.instructions.map(
+              (item, index) =>
+                item !== "" && (
+                  <View
+                    key={index}
+                    style={{
+                      paddingVertical: 5,
+                      flexDirection: "row",
+                      justifyContent: "space-between",
+                    }}
+                  >
+                    <Text>
+                      <Text style={{ fontWeight: "bold", color: "#F97316" }}>
+                        {index + 1}.
+                      </Text>{" "}
+                      {item}
+                    </Text>
+                  </View>
+                )
+            )}
         </View>
       </ScrollView>
     </View>

@@ -1,12 +1,5 @@
-import React, { useEffect, useState } from "react";
-import {
-  Pressable,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  useWindowDimensions,
-  View,
-} from "react-native";
+import React from "react";
+import { Pressable, StyleSheet, Text, useWindowDimensions } from "react-native";
 
 const PageButton = ({ active, children, onPress }) => {
   const { width, height } = useWindowDimensions();
