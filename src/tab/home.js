@@ -14,6 +14,7 @@ import {
 import FoodCard from "../component/food-card";
 import { getMeals } from "../request/request-meal";
 import Pagination from "../component/pagination";
+import Loading from "../component/loading";
 
 const Home = ({ navigation }) => {
   const { width, height } = useWindowDimensions();
@@ -68,6 +69,7 @@ const Home = ({ navigation }) => {
   return (
     <View style={{ flex: 1, backgroundColor: "#FFFFFF" }}>
       <StatusBar hidden={true} />
+      <Loading isLoading={isLoading}>Loading Meals</Loading>
       <View
         style={{
           height: height * 0.16,
@@ -125,36 +127,6 @@ const Home = ({ navigation }) => {
           />
         </View>
       </View>
-      <Modal transparent={true} visible={isLoading}>
-        <View
-          style={{
-            flex: 1,
-            justifyContent: "center",
-            alignItems: "center",
-            backgroundColor: "rgba(0, 0, 0, 0.5)",
-          }}
-        >
-          <View
-            style={{
-              width: width * 0.8,
-              height: height * 0.2,
-              borderRadius: 10,
-              justifyContent: "center",
-              alignItems: "center",
-              backgroundColor: "#1e293b",
-            }}
-          >
-            <View style={{ marginBottom: 15 }}>
-              <Text style={{ fontSize: 16, color: "#f1f5f9" }}>
-                Loading Meals
-              </Text>
-            </View>
-            <View>
-              <ActivityIndicator color={"#F97316"} size={"large"} />
-            </View>
-          </View>
-        </View>
-      </Modal>
 
       <View style={{ flex: 1, padding: 15 }}>
         <View style={{ marginBottom: 15 }}>

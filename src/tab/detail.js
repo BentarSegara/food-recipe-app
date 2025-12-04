@@ -6,10 +6,8 @@ import {
 } from "lucide-react-native";
 import React, { useEffect, useState } from "react";
 import {
-  ActivityIndicator,
   Image,
   ImageBackground,
-  Modal,
   Pressable,
   ScrollView,
   Text,
@@ -17,6 +15,13 @@ import {
   View,
 } from "react-native";
 import { getMeals } from "../request/request-meal";
+import {
+  connectDB,
+  deleteFavMeal,
+  insertFavMeal,
+  isMealFavorite,
+} from "../storage/sqlite";
+import Loading from "../component/loading";
 
 const Detail = ({ route, navigation }) => {
   const ingThumbBaseURL =
@@ -24,29 +29,76 @@ const Detail = ({ route, navigation }) => {
   const { width, height } = useWindowDimensions();
   const [isFavorite, setFavorite] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-
+  const [dbConn, setDbConn] = useState(null);
+  const [loadMsg, setLoadMsg] = useState("");
   const [meal, setMeal] = useState(route.params.meal);
 
-  useEffect(() => {
-    console.log("Meal: ", meal);
-    if (Object.keys(meal).length === 3) {
-      const getMealDetail = async () => {
-        setIsLoading(true);
-        try {
-          const mealDetail = await getMeals("s", meal.meal);
-          setMeal(mealDetail[0]);
-          console.log(mealDetail);
-        } catch (err) {
-          console.error(err);
-        } finally {
-          setIsLoading(false);
-        }
-      };
-      getMealDetail();
+  const favoriteCheck = async (db, mealId) => {
+    try {
+      const isFavMeal = await isMealFavorite(db, mealId);
+      setFavorite(isFavMeal);
+    } catch (err) {
+      console.error(err);
     }
-  }, []);
+  };
+
+  const getMealDetail = async (meal) => {
+    setLoadMsg("Loading Meal Detail");
+    setIsLoading(true);
+    try {
+      const mealDetail = await getMeals("s", meal);
+      setMeal(mealDetail[0]);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    const currentMeal = route.params.meal;
+    setMeal(currentMeal);
+
+    const getConnection = async () => {
+      const db = await connectDB();
+      setDbConn(db);
+      await favoriteCheck(db, currentMeal.id);
+    };
+    if (Object.keys(meal).length === 3) {
+      getMealDetail(currentMeal.meal);
+    }
+    getConnection();
+  }, [route.params.meal]);
+
+  const bookMarkMeal = async () => {
+    setLoadMsg("Adding Meal to Favorites");
+    setIsLoading(true);
+    try {
+      await insertFavMeal(dbConn, meal);
+      setFavorite(true);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const unBookMarkMeal = async () => {
+    setLoadMsg("Removing Meal from Favorites");
+    setIsLoading(true);
+    try {
+      await deleteFavMeal(dbConn, meal.id);
+      setFavorite(false);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <View style={{ flex: 1, backgroundColor: "#FFEDD5" }}>
+      <Loading isLoading={isLoading}>{loadMsg}</Loading>
       <View
         style={{
           flexDirection: "row",
@@ -66,36 +118,6 @@ const Detail = ({ route, navigation }) => {
           </Text>
         </View>
       </View>
-      <Modal transparent={true} visible={isLoading}>
-        <View
-          style={{
-            flex: 1,
-            justifyContent: "center",
-            alignItems: "center",
-            backgroundColor: "rgba(0, 0, 0, 0.5)",
-          }}
-        >
-          <View
-            style={{
-              width: width * 0.8,
-              height: height * 0.2,
-              borderRadius: 10,
-              justifyContent: "center",
-              alignItems: "center",
-              backgroundColor: "#1e293b",
-            }}
-          >
-            <View style={{ marginBottom: 15 }}>
-              <Text style={{ fontSize: 16, color: "#f1f5f9" }}>
-                Loading Meals
-              </Text>
-            </View>
-            <View>
-              <ActivityIndicator color={"#F97316"} size={"large"} />
-            </View>
-          </View>
-        </View>
-      </Modal>
       <ScrollView>
         <ImageBackground
           style={{
@@ -121,7 +143,11 @@ const Detail = ({ route, navigation }) => {
                   {meal.meal}
                 </Text>
               </View>
-              <Pressable onPress={() => setFavorite(!isFavorite)}>
+              <Pressable
+                onPress={() => {
+                  isFavorite ? unBookMarkMeal() : bookMarkMeal();
+                }}
+              >
                 <BookmarkPlus
                   size={28}
                   color={"#FFFFFF"}

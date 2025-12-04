@@ -1,6 +1,6 @@
 import { useNavigation } from "@react-navigation/native";
 import { MapPin, Tag } from "lucide-react-native";
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Image,
   Text,
@@ -13,6 +13,7 @@ const FoodCard = ({ food }) => {
   const navigation = useNavigation();
   const { width, height } = useWindowDimensions();
   const attributeCount = Object.keys(food).length;
+
   return (
     <View
       style={{
@@ -64,14 +65,15 @@ const FoodCard = ({ food }) => {
         </View>
 
         <TouchableOpacity
-          onPress={() =>
+          onPress={() => {
+            console.log(food.meal);
             navigation.navigate("Detail", {
               screen: "DetailPage",
               params: {
                 meal: food,
               },
-            })
-          }
+            });
+          }}
           style={{
             padding: 5,
             borderRadius: 5,
