@@ -1,9 +1,7 @@
 import { Menu, Search, Utensils } from "lucide-react-native";
 import React, { useEffect, useState } from "react";
 import {
-  ActivityIndicator,
   FlatList,
-  Modal,
   Pressable,
   StatusBar,
   Text,
