@@ -14,6 +14,7 @@ import Pagination from "../component/pagination";
 import { Menu, Search, Utensils } from "lucide-react-native";
 import FoodCard from "../component/food-card";
 import { getFilteredMeal, getMeals } from "../request/request-meal";
+import Header from "../component/header";
 
 const FilteredMeals = ({ navigation, route }) => {
   const { filter, filterValue } = route.params;
@@ -61,65 +62,9 @@ const FilteredMeals = ({ navigation, route }) => {
   );
 
   return (
-    <View style={{ flex: 1, backgroundColor: "#FFFFFF" }}>
+    <View style={{ flex: 1, backgroundColor: "#FFF7ED" }}>
       <StatusBar hidden={true} />
-      <View
-        style={{
-          height: height * 0.16,
-          justifyContent: "flex-end",
-          backgroundColor: "#F97316",
-        }}
-      >
-        <View
-          style={{
-            width: width * 0.8,
-            paddingHorizontal: 5,
-            flexDirection: "row",
-            alignItems: "center",
-          }}
-        >
-          <View>
-            <Pressable onPress={() => navigation.openDrawer()}>
-              <Menu color={"#FFFFFF"} size={25} />
-            </Pressable>
-          </View>
-          <View
-            style={{
-              flexDirection: "row",
-              marginLeft: 10,
-              alignItems: "center",
-            }}
-          >
-            <Utensils color={"#FFFFFF"} size={25} />
-            <Text
-              style={{ fontSize: 20, fontWeight: "bold", color: "#FFFFFF" }}
-            >
-              {"  "}
-              What's in My Fridge?
-            </Text>
-          </View>
-        </View>
-        <View
-          style={{
-            width: width * 0.8,
-            paddingVertical: 5,
-            paddingHorizontal: 10,
-            marginVertical: 10,
-            borderRadius: 10,
-            flexDirection: "row",
-            alignItems: "center",
-            alignSelf: "center",
-            backgroundColor: "#FFFFFF",
-          }}
-        >
-          <Search color={"#FB923C"} />
-          <TextInput
-            placeholder="Search by the ingredient ..."
-            placeholderTextColor={"#9CA3AF"}
-            keyboardType="web-search"
-          />
-        </View>
-      </View>
+      <Header navigation={navigation} />
       <Modal transparent={true} visible={isLoading}>
         <View
           style={{

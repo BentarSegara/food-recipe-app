@@ -97,7 +97,7 @@ const Detail = ({ route, navigation }) => {
   };
 
   return (
-    <View style={{ flex: 1, backgroundColor: "#FFEDD5" }}>
+    <View style={{ flex: 1, backgroundColor: "#FFF7ED" }}>
       <Loading isLoading={isLoading}>{loadMsg}</Loading>
       <View
         style={{
@@ -122,7 +122,7 @@ const Detail = ({ route, navigation }) => {
         <ImageBackground
           style={{
             height: height * 0.25,
-            backgroundColor: "red",
+            backgroundColor: "#FFEDD5",
           }}
           imageStyle={{ flex: 1 }}
           source={{ uri: meal.thumbnail }}

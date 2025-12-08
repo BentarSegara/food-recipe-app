@@ -36,33 +36,37 @@ const FoodCard = ({ food }) => {
       >
         <Image style={{ flex: 1 }} source={{ uri: food.thumbnail }} />
       </View>
-      <View style={{ flex: 1, padding: 5, justifyContent: "center" }}>
+      <View
+        style={{
+          flex: 1,
+          padding: 5,
+          justifyContent: "center",
+        }}
+      >
         <View style={{ marginBottom: 5 }}>
-          <View>
-            <Text
-              numberOfLines={1}
-              style={{
-                fontWeight: "bold",
-                color: "#1F2937",
-                textAlign: "center",
-              }}
-            >
-              {food.meal}
-            </Text>
-          </View>
-          {food.category && food.area && (
-            <View style={{ marginTop: 5 }}>
-              <View style={{ flexDirection: "row", alignItems: "center" }}>
-                <Tag size={12} color={"#FB923C"} />
-                <Text style={{ fontSize: 12 }}> {food.category}</Text>
-              </View>
-              <View style={{ flexDirection: "row", alignItems: "center" }}>
-                <MapPin size={12} color={"#FB923C"} />
-                <Text style={{ fontSize: 12 }}> {food.area}</Text>
-              </View>
-            </View>
-          )}
+          <Text
+            numberOfLines={1}
+            style={{
+              fontWeight: "bold",
+              color: "#1F2937",
+              textAlign: "center",
+            }}
+          >
+            {food.meal}
+          </Text>
         </View>
+        {food.category && food.area && (
+          <View style={{ marginBottom: 5 }}>
+            <View style={{ flexDirection: "row", alignItems: "center" }}>
+              <Tag size={12} color={"#FB923C"} />
+              <Text style={{ fontSize: 12 }}> {food.category}</Text>
+            </View>
+            <View style={{ flexDirection: "row", alignItems: "center" }}>
+              <MapPin size={12} color={"#FB923C"} />
+              <Text style={{ fontSize: 12 }}> {food.area}</Text>
+            </View>
+          </View>
+        )}
 
         <TouchableOpacity
           onPress={() => {

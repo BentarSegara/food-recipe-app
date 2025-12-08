@@ -41,6 +41,22 @@ const filteredMeal = (meal) => ({
   thumbnail: meal.strMealThumb,
 });
 
+const selectMealByIngredients = (arrayMeals) => {
+  const mergedMeals = [];
+  arrayMeals.map((mealArray) => mergedMeals.push(...mealArray));
+
+  const selected = new Set(
+    mergedMeals.filter((meal) => {
+      const freq = mergedMeals.filter(
+        (theMeal) => theMeal.idMeal === meal.idMeal
+      ).length;
+      return freq === arrayMeals.length;
+    })
+  );
+  const meals = Array.from(selected);
+  return filteredMeals(meals);
+};
+
 const cleanMeals = (meals) => meals.map((meal) => cleanedMeal(meal));
 const filteredMeals = (meals) => meals.map((meal) => filteredMeal(meal));
 
@@ -58,6 +74,33 @@ export const getFilteredMeal = async (filter, filterValue) => {
     return filteredMeals(meals);
   } catch (err) {
     console.error(err);
+  }
+};
+
+export const getMealsByIngredients = async (ingredients) => {
+  try {
+    const url = "https://www.themealdb.com/api/json/v1/1/filter.php?i=";
+    const setupReq = ingredients.map((ingredient) => {
+      const formatedIngredient = ingredient.replaceAll(" ", "_");
+      return url + formatedIngredient;
+    });
+    const meals = [];
+    await Promise.all(
+      setupReq.map((reqUrl) => request({ url: reqUrl, method: "get" }))
+    ).then((res) => {
+      res.map((mealsResponse) => {
+        const mealArray = mealsResponse.data.meals;
+        if (mealArray) meals.push(mealArray);
+      });
+    });
+
+    if (meals.length === 0) return meals;
+    else {
+      const selectedMeals = selectMealByIngredients(meals);
+      return selectedMeals;
+    }
+  } catch (err) {
+    throw new Error("Gagal Mengambil Data: ", err);
   }
 };
 
