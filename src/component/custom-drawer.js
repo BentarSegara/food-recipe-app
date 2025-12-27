@@ -4,24 +4,17 @@ import {
 } from "@react-navigation/drawer";
 import { X } from "lucide-react-native";
 import React from "react";
-import { Pressable, Text, useWindowDimensions, View } from "react-native";
+import { Pressable, StyleSheet, Text, useWindowDimensions, View } from "react-native";
 
 const CustomDrawer = (props) => {
   const { height } = useWindowDimensions();
   return (
-    <View style={{ flex: 1 }}>
+    <View style={styles.container}>
       <View
-        style={{
-          height: height * 0.1,
-          padding: 20,
-          flexDirection: "row",
-          justifyContent: "space-between",
-          alignItems: "flex-end",
-          backgroundColor: "#F97316",
-        }}
+        style={[styles.headerContainer, { height: height * 0.1 }]}
       >
         <View>
-          <Text style={{ fontSize: 30, fontWeight: "bold", color: "#FFFFFF" }}>
+          <Text style={styles.menuText}>
             Menu
           </Text>
         </View>
@@ -36,19 +29,42 @@ const CustomDrawer = (props) => {
         <DrawerItemList {...props} />
       </DrawerContentScrollView>
       <View
-        style={{
-          padding: 25,
-          alignItems: "center",
-          borderTopWidth: 0.5,
-          borderColor: "#6B7280",
-        }}
+        style={styles.footerContainer}
       >
-        <Text style={{ fontWeight: "400", color: "#6B7280" }}>
+        <Text style={styles.footerText}>
           What's in My Fridge? v.10
         </Text>
       </View>
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  headerContainer: {
+    padding: 20,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "flex-end",
+    backgroundColor: "#F97316",
+  },
+  menuText: {
+    fontSize: 30,
+    fontWeight: "bold",
+    color: "#FFFFFF",
+  },
+  footerContainer: {
+    padding: 25,
+    alignItems: "center",
+    borderTopWidth: 0.5,
+    borderColor: "#6B7280",
+  },
+  footerText: {
+    fontWeight: "400",
+    color: "#6B7280",
+  },
+});
 
 export default CustomDrawer;

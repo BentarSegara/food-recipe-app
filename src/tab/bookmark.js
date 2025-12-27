@@ -3,6 +3,7 @@ import React, { useCallback, useState } from "react";
 import {
   FlatList,
   Pressable,
+  StyleSheet,
   Text,
   TextInput,
   useWindowDimensions,
@@ -73,12 +74,12 @@ const BookMark = ({ navigation }) => {
   );
 
   return (
-    <View style={{ flex: 1, backgroundColor: "#FFF7ED" }}>
+    <View style={styles.container}>
       <Loading isLoading={isLoading}>Loading Favorite Meals</Loading>
       <Header navigation={navigation} />
-      <View style={{ flex: 1, padding: 15 }}>
+      <View style={styles.contentContainer}>
         <View style={{ marginBottom: 15 }}>
-          <Text style={{ fontSize: 18, fontWeight: "bold", color: "#1F2937" }}>
+          <Text style={styles.headerTitle}>
             Favorite Meals
           </Text>
         </View>
@@ -98,5 +99,21 @@ const BookMark = ({ navigation }) => {
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#FFF7ED",
+  },
+  contentContainer: {
+    flex: 1,
+    padding: 15,
+  },
+  headerTitle: {
+    fontSize: 18,
+    fontWeight: "bold",
+    color: "#1F2937",
+  },
+});
 
 export default BookMark;

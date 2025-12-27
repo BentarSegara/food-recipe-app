@@ -4,6 +4,7 @@ import {
   FlatList,
   Pressable,
   StatusBar,
+  StyleSheet,
   Text,
   TextInput,
   useWindowDimensions,
@@ -66,14 +67,14 @@ const Home = ({ navigation }) => {
   }, [currIndex]);
 
   return (
-    <View style={{ flex: 1, backgroundColor: "#FFF7ED" }}>
+    <View style={styles.container}>
       <StatusBar hidden={true} />
       <Loading isLoading={isLoading}>Loading Meals</Loading>
       <Header />
 
-      <View style={{ flex: 1, padding: 15 }}>
+      <View style={styles.contentContainer}>
         <View style={{ marginBottom: 15 }}>
-          <Text style={{ fontSize: 18, fontWeight: "bold", color: "#1F2937" }}>
+          <Text style={styles.headerTitle}>
             List Meals
           </Text>
         </View>
@@ -97,5 +98,21 @@ const Home = ({ navigation }) => {
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#FFF7ED",
+  },
+  contentContainer: {
+    flex: 1,
+    padding: 15,
+  },
+  headerTitle: {
+    fontSize: 18,
+    fontWeight: "bold",
+    color: "#1F2937",
+  },
+});
 
 export default Home;

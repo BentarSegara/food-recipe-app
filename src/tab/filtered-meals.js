@@ -5,6 +5,7 @@ import {
   Modal,
   Pressable,
   StatusBar,
+  StyleSheet,
   Text,
   TextInput,
   useWindowDimensions,
@@ -62,30 +63,21 @@ const FilteredMeals = ({ navigation, route }) => {
   );
 
   return (
-    <View style={{ flex: 1, backgroundColor: "#FFF7ED" }}>
+    <View style={styles.container}>
       <StatusBar hidden={true} />
       <Header navigation={navigation} />
       <Modal transparent={true} visible={isLoading}>
         <View
-          style={{
-            flex: 1,
-            justifyContent: "center",
-            alignItems: "center",
-            backgroundColor: "rgba(0, 0, 0, 0.5)",
-          }}
+          style={styles.modalOverlay}
         >
           <View
-            style={{
-              width: width * 0.8,
-              height: height * 0.2,
-              borderRadius: 10,
-              justifyContent: "center",
-              alignItems: "center",
-              backgroundColor: "#1e293b",
-            }}
+            style={[
+              styles.modalContent,
+              { width: width * 0.8, height: height * 0.2 },
+            ]}
           >
             <View style={{ marginBottom: 15 }}>
-              <Text style={{ fontSize: 16, color: "#f1f5f9" }}>
+              <Text style={styles.loadingText}>
                 Loading Meals
               </Text>
             </View>
@@ -96,10 +88,16 @@ const FilteredMeals = ({ navigation, route }) => {
         </View>
       </Modal>
 
-      <View style={{ flex: 1, padding: 15 }}>
+      <View style={styles.contentContainer}>
         <View style={{ marginBottom: 15 }}>
-          <Text style={{ fontSize: 18, fontWeight: "bold", color: "#1F2937" }}>
-            List Meals
+          <Text style={styles.headerTitle}>
+            List Meals By{" "}
+            {filter === "c"
+              ? "Category"
+              : filter === "a"
+              ? "Area"
+              : "Ingredient"}
+            : {filterValue}
           </Text>
         </View>
 
@@ -118,5 +116,37 @@ const FilteredMeals = ({ navigation, route }) => {
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#FFF7ED",
+  },
+  modalOverlay: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+  },
+  modalContent: {
+    borderRadius: 10,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#1e293b",
+  },
+  loadingText: {
+    fontSize: 16,
+    color: "#f1f5f9",
+  },
+  contentContainer: {
+    flex: 1,
+    padding: 15,
+  },
+  headerTitle: {
+    fontSize: 18,
+    fontWeight: "bold",
+    color: "#1F2937",
+  },
+});
 
 export default FilteredMeals;

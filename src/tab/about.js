@@ -1,5 +1,5 @@
 import React from "react";
-import { ScrollView, Text, useWindowDimensions, View } from "react-native";
+import { ScrollView, StyleSheet, Text, useWindowDimensions, View } from "react-native";
 import Header from "../component/header";
 import {
   BookmarkPlus,
@@ -16,19 +16,12 @@ const Features = ({ style, icon, name, children }) => {
   return (
     <View style={[{ flexDirection: "row" }, style]}>
       <View
-        style={{
-          marginRight: 10,
-          padding: 10,
-          borderRadius: 10,
-          justifyContent: "center",
-          alignItems: "center",
-          backgroundColor: "#FFEDD5",
-        }}
+        style={styles.featureIconContainer}
       >
         <Icon size={18} color={"#F97316"} />
       </View>
       <View>
-        <Text style={{ fontSize: 16, fontWeight: "bold" }}>{name}</Text>
+        <Text style={styles.featureName}>{name}</Text>
         <Text style={{ fontSize: 12 }}>{children}</Text>
       </View>
     </View>
@@ -37,35 +30,22 @@ const Features = ({ style, icon, name, children }) => {
 const About = ({ navigation }) => {
   const { width, height } = useWindowDimensions();
   return (
-    <View style={{ flex: 1, backgroundColor: "#FFF7ED" }}>
+    <View style={styles.container}>
       <Header navigation={navigation} />
       <ScrollView>
         <View
-          style={{
-            marginTop: 15,
-            marginHorizontal: 15,
-            padding: 15,
-            elevation: 5,
-            borderRadius: 10,
-            alignItems: "center",
-            backgroundColor: "#FFFFFF",
-          }}
+          style={styles.cardContainer}
         >
           <View
-            style={{
-              width: width * 0.21,
-              height: height * 0.1,
-              marginBottom: 15,
-              borderRadius: 50,
-              justifyContent: "center",
-              alignItems: "center",
-              backgroundColor: "#F97316",
-            }}
+            style={[
+              styles.avatarContainer,
+              { width: width * 0.21, height: height * 0.1 },
+            ]}
           >
             <ChefHat size={35} color={"#FFFFFF"} />
           </View>
           <View style={{ alignItems: "center" }}>
-            <Text style={{ fontSize: 20, fontWeight: "bold" }}>
+            <Text style={styles.appTitle}>
               What's in My Fridge?
             </Text>
             <Text style={{ color: "#4B5563" }}>Version 1.0</Text>
@@ -73,24 +53,13 @@ const About = ({ navigation }) => {
         </View>
 
         <View
-          style={{
-            marginTop: 15,
-            marginHorizontal: 15,
-            padding: 15,
-            elevation: 5,
-            borderRadius: 10,
-            backgroundColor: "#FFFFFF",
-          }}
+          style={styles.cardContainer}
         >
           <View
-            style={{
-              flexDirection: "row",
-              marginBottom: 15,
-              alignItems: "center",
-            }}
+            style={styles.sectionHeader}
           >
             <Info color={"#F97316"} />
-            <Text style={{ fontSize: 18, fontWeight: "bold" }}>
+            <Text style={styles.sectionTitle}>
               {" "}
               About Application
             </Text>
@@ -109,24 +78,13 @@ const About = ({ navigation }) => {
         </View>
 
         <View
-          style={{
-            marginTop: 15,
-            marginHorizontal: 15,
-            padding: 15,
-            elevation: 5,
-            borderRadius: 10,
-            backgroundColor: "#FFFFFF",
-          }}
+          style={styles.cardContainer}
         >
           <View
-            style={{
-              flexDirection: "row",
-              marginBottom: 15,
-              alignItems: "center",
-            }}
+            style={styles.sectionHeader}
           >
             <Heart color={"#F97316"} />
-            <Text style={{ fontSize: 18, fontWeight: "bold" }}> Features</Text>
+            <Text style={styles.sectionTitle}> Features</Text>
           </View>
           <View>
             <Features icon={Search} name={"Search by the Ingredients"}>
@@ -148,74 +106,44 @@ const About = ({ navigation }) => {
         </View>
 
         <View
-          style={{
-            marginTop: 15,
-            marginHorizontal: 15,
-            padding: 15,
-            elevation: 5,
-            borderRadius: 10,
-            backgroundColor: "#FFFFFF",
-          }}
+          style={styles.cardContainer}
         >
           <View style={{ marginBottom: 15 }}>
-            <Text style={{ fontSize: 18, fontWeight: "bold" }}>
+            <Text style={styles.sectionTitle}>
               Technology Stack
             </Text>
           </View>
           <View
-            style={{
-              flexDirection: "row",
-              flexWrap: "wrap",
-            }}
+            style={styles.techStackWrapper}
           >
             <View
-              style={{
-                margin: 5,
-                padding: 5,
-                borderRadius: 10,
-                backgroundColor: "#FFEDD5",
-              }}
+              style={styles.techBadge}
             >
-              <Text style={{ fontWeight: "bold", color: "#F97316" }}>
+              <Text style={styles.techBadgeText}>
                 React Native
               </Text>
             </View>
 
             <View
-              style={{
-                margin: 5,
-                padding: 5,
-                borderRadius: 10,
-                backgroundColor: "#FFEDD5",
-              }}
+              style={styles.techBadge}
             >
-              <Text style={{ fontWeight: "bold", color: "#F97316" }}>
+              <Text style={styles.techBadgeText}>
                 Node JS
               </Text>
             </View>
 
             <View
-              style={{
-                margin: 5,
-                padding: 5,
-                borderRadius: 10,
-                backgroundColor: "#FFEDD5",
-              }}
+              style={styles.techBadge}
             >
-              <Text style={{ fontWeight: "bold", color: "#F97316" }}>
+              <Text style={styles.techBadgeText}>
                 TheMealDB
               </Text>
             </View>
 
             <View
-              style={{
-                margin: 5,
-                padding: 5,
-                borderRadius: 10,
-                backgroundColor: "#FFEDD5",
-              }}
+              style={styles.techBadge}
             >
-              <Text style={{ fontWeight: "bold", color: "#F97316" }}>
+              <Text style={styles.techBadgeText}>
                 Lucide Icons
               </Text>
             </View>
@@ -223,27 +151,16 @@ const About = ({ navigation }) => {
         </View>
 
         <View
-          style={{
-            marginTop: 15,
-            marginHorizontal: 15,
-            padding: 15,
-            elevation: 5,
-            borderRadius: 10,
-            backgroundColor: "#FFFFFF",
-          }}
+          style={styles.cardContainer}
         >
           <View style={{ marginBottom: 15 }}>
-            <Text style={{ fontSize: 18, fontWeight: "bold" }}>
+            <Text style={styles.sectionTitle}>
               Contact & Support
             </Text>
           </View>
           <View>
             <View
-              style={{
-                marginVertical: 5,
-                flexDirection: "row",
-                alignItems: "center",
-              }}
+              style={styles.contactRow}
             >
               <Mail color={"#F97316"} />
               <Text style={{ color: "#4B5563" }}>
@@ -252,11 +169,7 @@ const About = ({ navigation }) => {
             </View>
 
             <View
-              style={{
-                marginVertical: 5,
-                flexDirection: "row",
-                alignItems: "center",
-              }}
+              style={styles.contactRow}
             >
               <Github color={"#F97316"} />
               <Text style={{ color: "#4B5563" }}>
@@ -267,15 +180,7 @@ const About = ({ navigation }) => {
         </View>
 
         <View
-          style={{
-            margin: 15,
-            padding: 15,
-            elevation: 5,
-            borderRadius: 10,
-            justifyContent: "center",
-            alignItems: "center",
-            backgroundColor: "#F97316",
-          }}
+          style={styles.footerCard}
         >
           <Text style={{ color: "#FFFFFF" }}>Made with ❤️ for food lovers</Text>
 
@@ -287,5 +192,81 @@ const About = ({ navigation }) => {
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#FFF7ED",
+  },
+  cardContainer: {
+    marginTop: 15,
+    marginHorizontal: 15,
+    padding: 15,
+    elevation: 5,
+    borderRadius: 10,
+    alignItems: "center",
+    backgroundColor: "#FFFFFF",
+  },
+  avatarContainer: {
+    marginBottom: 15,
+    borderRadius: 50,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#F97316",
+  },
+  appTitle: {
+    fontSize: 20,
+    fontWeight: "bold",
+  },
+  sectionHeader: {
+    flexDirection: "row",
+    marginBottom: 15,
+    alignItems: "center",
+  },
+  sectionTitle: {
+    fontSize: 18,
+    fontWeight: "bold",
+  },
+  featureIconContainer: {
+    marginRight: 10,
+    padding: 10,
+    borderRadius: 10,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#FFEDD5",
+  },
+  featureName: {
+    fontSize: 16,
+    fontWeight: "bold",
+  },
+  techStackWrapper: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+  },
+  techBadge: {
+    margin: 5,
+    padding: 5,
+    borderRadius: 10,
+    backgroundColor: "#FFEDD5",
+  },
+  techBadgeText: {
+    fontWeight: "bold",
+    color: "#F97316",
+  },
+  contactRow: {
+    marginVertical: 5,
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  footerCard: {
+    margin: 15,
+    padding: 15,
+    elevation: 5,
+    borderRadius: 10,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#F97316",
+  },
+});
 
 export default About;

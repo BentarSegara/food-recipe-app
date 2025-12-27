@@ -10,6 +10,7 @@ import {
   ImageBackground,
   Pressable,
   ScrollView,
+  StyleSheet,
   Text,
   useWindowDimensions,
   View,
@@ -97,48 +98,33 @@ const Detail = ({ route, navigation }) => {
   };
 
   return (
-    <View style={{ flex: 1, backgroundColor: "#FFF7ED" }}>
+    <View style={styles.container}>
       <Loading isLoading={isLoading}>{loadMsg}</Loading>
       <View
-        style={{
-          flexDirection: "row",
-          height: height * 0.1,
-          padding: 25,
-          justifyContent: "flex-start",
-          alignItems: "flex-end",
-          backgroundColor: "#F97316",
-        }}
+        style={[styles.headerContainer, { height: height * 0.1 }]}
       >
         <Pressable onPress={() => navigation.goBack()}>
           <ArrowLeft size={25} color={"#FFFFFF"} />
         </Pressable>
         <View style={{ marginLeft: 15 }}>
-          <Text style={{ fontSize: 20, fontWeight: "bold", color: "#FFFFFF" }}>
+          <Text style={styles.headerTitle}>
             Detail Resep
           </Text>
         </View>
       </View>
       <ScrollView>
         <ImageBackground
-          style={{
-            height: height * 0.25,
-            backgroundColor: "#FFEDD5",
-          }}
+          style={[styles.imageBackground, { height: height * 0.25 }]}
           imageStyle={{ flex: 1 }}
           source={{ uri: meal.thumbnail }}
         >
           <View
-            style={{
-              flex: 1,
-              paddingLeft: 15,
-              justifyContent: "flex-end",
-              backgroundColor: "rgba(0,0,0,0.2)",
-            }}
+            style={styles.imageOverlay}
           >
-            <View style={{ flexDirection: "row", alignItems: "center" }}>
+            <View style={styles.mealTitleRow}>
               <View>
                 <Text
-                  style={{ fontSize: 25, fontWeight: "500", color: "#FFFFFF" }}
+                  style={styles.mealTitle}
                 >
                   {meal.meal}
                 </Text>
@@ -155,7 +141,7 @@ const Detail = ({ route, navigation }) => {
                 />
               </Pressable>
             </View>
-            <View style={{ marginVertical: 15, flexDirection: "row" }}>
+            <View style={styles.badgeRow}>
               <Pressable
                 onPress={() =>
                   navigation.navigate("FilteredMeals", {
@@ -163,14 +149,7 @@ const Detail = ({ route, navigation }) => {
                     filterValue: meal.category,
                   })
                 }
-                style={{
-                  width: width * 0.2,
-                  marginRight: 10,
-                  paddingVertical: 2,
-                  borderRadius: 20,
-                  alignItems: "center",
-                  backgroundColor: "#F97316",
-                }}
+                style={[styles.categoryBadge, { width: width * 0.2 }]}
               >
                 <Text style={{ color: "#FFFFFF" }}>{meal.category}</Text>
               </Pressable>
@@ -181,14 +160,7 @@ const Detail = ({ route, navigation }) => {
                     filterValue: meal.area,
                   })
                 }
-                style={{
-                  width: width * 0.25,
-                  marginRight: 10,
-                  paddingVertical: 2,
-                  borderRadius: 20,
-                  alignItems: "center",
-                  backgroundColor: "#FFFFFF",
-                }}
+                style={[styles.areaBadge, { width: width * 0.25 }]}
               >
                 <Text style={{ color: "#1F2937" }}>{meal.area}</Text>
               </Pressable>
@@ -196,11 +168,11 @@ const Detail = ({ route, navigation }) => {
           </View>
         </ImageBackground>
         <View
-          style={{ marginBottom: 5, padding: 15, backgroundColor: "#FFFFFF" }}
+          style={styles.ingredientsSection}
         >
-          <View style={{ flexDirection: "row", alignItems: "center" }}>
+          <View style={styles.sectionHeader}>
             <ReceiptText />
-            <Text style={{ fontSize: 16, fontWeight: "500" }}>
+            <Text style={styles.sectionTitle}>
               {" "}
               Bahan - Bahan
             </Text>
@@ -209,22 +181,11 @@ const Detail = ({ route, navigation }) => {
             meal.ingredients.map((item, index) => (
               <View
                 key={index}
-                style={{
-                  paddingVertical: 15,
-                  borderBottomWidth: 0.2,
-                  borderBottomColor: "#6B7280",
-                  flexDirection: "row",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                }}
+                style={styles.ingredientRow}
               >
-                <View style={{ flexDirection: "row", alignItems: "center" }}>
+                <View style={styles.ingredientInfo}>
                   <View
-                    style={{
-                      width: 30,
-                      height: 30,
-                      marginRight: 5,
-                    }}
+                    style={styles.ingredientImage}
                   >
                     <Image
                       style={{ flex: 1 }}
@@ -245,7 +206,7 @@ const Detail = ({ route, navigation }) => {
                   </Pressable>
                 </View>
                 <View>
-                  <Text style={{ fontWeight: "bold", color: "#F97316" }}>
+                  <Text style={styles.measureText}>
                     {item.measure}
                   </Text>
                 </View>
@@ -253,16 +214,12 @@ const Detail = ({ route, navigation }) => {
             ))}
         </View>
 
-        <View style={{ padding: 15, backgroundColor: "#FFFFFF" }}>
+        <View style={styles.instructionsSection}>
           <View
-            style={{
-              marginBottom: 10,
-              flexDirection: "row",
-              alignItems: "center",
-            }}
+            style={styles.sectionHeaderInstructions}
           >
             <ChefHat />
-            <Text style={{ fontSize: 16, fontWeight: "500" }}>
+            <Text style={styles.sectionTitle}>
               {" "}
               Cara Membuat
             </Text>
@@ -273,14 +230,10 @@ const Detail = ({ route, navigation }) => {
                 item !== "" && (
                   <View
                     key={index}
-                    style={{
-                      paddingVertical: 5,
-                      flexDirection: "row",
-                      justifyContent: "space-between",
-                    }}
+                    style={styles.instructionRow}
                   >
                     <Text>
-                      <Text style={{ fontWeight: "bold", color: "#F97316" }}>
+                      <Text style={styles.instructionNumber}>
                         {index + 1}.
                       </Text>{" "}
                       {item}
@@ -293,5 +246,112 @@ const Detail = ({ route, navigation }) => {
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#FFF7ED",
+  },
+  headerContainer: {
+    flexDirection: "row",
+    padding: 25,
+    justifyContent: "flex-start",
+    alignItems: "flex-end",
+    backgroundColor: "#F97316",
+  },
+  headerTitle: {
+    fontSize: 20,
+    fontWeight: "bold",
+    color: "#FFFFFF",
+  },
+  imageBackground: {
+    backgroundColor: "#FFEDD5",
+  },
+  imageOverlay: {
+    flex: 1,
+    paddingLeft: 15,
+    justifyContent: "flex-end",
+    backgroundColor: "rgba(0,0,0,0.2)",
+  },
+  mealTitleRow: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  mealTitle: {
+    fontSize: 25,
+    fontWeight: "500",
+    color: "#FFFFFF",
+  },
+  badgeRow: {
+    marginVertical: 15,
+    flexDirection: "row",
+  },
+  categoryBadge: {
+    marginRight: 10,
+    paddingVertical: 2,
+    borderRadius: 20,
+    alignItems: "center",
+    backgroundColor: "#F97316",
+  },
+  areaBadge: {
+    marginRight: 10,
+    paddingVertical: 2,
+    borderRadius: 20,
+    alignItems: "center",
+    backgroundColor: "#FFFFFF",
+  },
+  ingredientsSection: {
+    marginBottom: 5,
+    padding: 15,
+    backgroundColor: "#FFFFFF",
+  },
+  sectionHeader: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  sectionTitle: {
+    fontSize: 16,
+    fontWeight: "500",
+  },
+  ingredientRow: {
+    paddingVertical: 15,
+    borderBottomWidth: 0.2,
+    borderBottomColor: "#6B7280",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  ingredientInfo: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  ingredientImage: {
+    width: 30,
+    height: 30,
+    marginRight: 5,
+  },
+  measureText: {
+    fontWeight: "bold",
+    color: "#F97316",
+  },
+  instructionsSection: {
+    padding: 15,
+    backgroundColor: "#FFFFFF",
+  },
+  sectionHeaderInstructions: {
+    marginBottom: 10,
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  instructionRow: {
+    paddingVertical: 5,
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  instructionNumber: {
+    fontWeight: "bold",
+    color: "#F97316",
+  },
+});
 
 export default Detail;

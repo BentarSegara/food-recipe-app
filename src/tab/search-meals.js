@@ -5,6 +5,7 @@ import {
   Modal,
   Pressable,
   StatusBar,
+  StyleSheet,
   Text,
   useWindowDimensions,
   View,
@@ -66,30 +67,21 @@ const SearchMeals = ({ navigation, route }) => {
   );
 
   return (
-    <View style={{ flex: 1, backgroundColor: "#FFF7ED" }}>
+    <View style={styles.container}>
       <StatusBar hidden={true} />
       <Header navigation={navigation} />
       <Modal transparent={true} visible={isLoading}>
         <View
-          style={{
-            flex: 1,
-            justifyContent: "center",
-            alignItems: "center",
-            backgroundColor: "rgba(0, 0, 0, 0.5)",
-          }}
+          style={styles.modalOverlay}
         >
           <View
-            style={{
-              width: width * 0.8,
-              height: height * 0.2,
-              borderRadius: 10,
-              justifyContent: "center",
-              alignItems: "center",
-              backgroundColor: "#1e293b",
-            }}
+            style={[
+              styles.modalContent,
+              { width: width * 0.8, height: height * 0.2 },
+            ]}
           >
             <View style={{ marginBottom: 15 }}>
-              <Text style={{ fontSize: 16, color: "#f1f5f9" }}>
+              <Text style={styles.loadingText}>
                 Loading Meals
               </Text>
             </View>
@@ -100,9 +92,9 @@ const SearchMeals = ({ navigation, route }) => {
         </View>
       </Modal>
 
-      <View style={{ flex: 1, padding: 15 }}>
+      <View style={styles.contentContainer}>
         <View style={{ marginBottom: 15 }}>
-          <Text style={{ fontSize: 18, fontWeight: "bold", color: "#1F2937" }}>
+          <Text style={styles.headerTitle}>
             Meal List According to The Ingredients
           </Text>
         </View>
@@ -116,26 +108,20 @@ const SearchMeals = ({ navigation, route }) => {
           />
         ) : (
           <View
-            style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
+            style={styles.emptyStateContainer}
           >
             <View>
               <Utensils color={"#FB923C"} size={30} />
             </View>
             <View style={{ marginVertical: 10 }}>
-              <Text style={{ fontWeight: "bold", color: "#FB923C" }}>
+              <Text style={styles.emptyStateText}>
                 Meals Not Found
               </Text>
             </View>
             <Pressable
-              style={{
-                paddingVertical: 10,
-                paddingHorizontal: 15,
-                borderRadius: 10,
-                borderWidth: 0.5,
-                borderColor: "#EA580C",
-              }}
+              style={styles.tryAgainButton}
             >
-              <Text style={{ fontWeight: "bold", color: "#F97316" }}>
+              <Text style={styles.tryAgainButtonText}>
                 Try Again
               </Text>
             </Pressable>
@@ -150,5 +136,57 @@ const SearchMeals = ({ navigation, route }) => {
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#FFF7ED",
+  },
+  modalOverlay: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+  },
+  modalContent: {
+    borderRadius: 10,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#1e293b",
+  },
+  loadingText: {
+    fontSize: 16,
+    color: "#f1f5f9",
+  },
+  contentContainer: {
+    flex: 1,
+    padding: 15,
+  },
+  headerTitle: {
+    fontSize: 18,
+    fontWeight: "bold",
+    color: "#1F2937",
+  },
+  emptyStateContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  emptyStateText: {
+    fontWeight: "bold",
+    color: "#FB923C",
+  },
+  tryAgainButton: {
+    paddingVertical: 10,
+    paddingHorizontal: 15,
+    borderRadius: 10,
+    borderWidth: 0.5,
+    borderColor: "#EA580C",
+  },
+  tryAgainButtonText: {
+    fontWeight: "bold",
+    color: "#F97316",
+  },
+});
 
 export default SearchMeals;

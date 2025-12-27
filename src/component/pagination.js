@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import PageButton from "./page-button";
 import MoveButton from "./move-button";
 
@@ -28,14 +28,7 @@ const Pagination = ({ style, data, onMoveNext, onMoveBack }) => {
 
   return (
     <View
-      style={{
-        width: "100%",
-        flexDirection: "row",
-        marginBottom: 15,
-        justifyContent: "center",
-        alignItems: "center",
-        alignSelf: "center",
-      }}
+      style={styles.container}
     >
       <MoveButton
         disabled={data.length > 1 ? false : true}
@@ -76,5 +69,16 @@ const Pagination = ({ style, data, onMoveNext, onMoveBack }) => {
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    width: "100%",
+    flexDirection: "row",
+    marginBottom: 15,
+    justifyContent: "center",
+    alignItems: "center",
+    alignSelf: "center",
+  },
+});
 
 export default Pagination;

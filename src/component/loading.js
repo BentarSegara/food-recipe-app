@@ -19,8 +19,8 @@ const Loading = ({ isLoading, children }) => {
             { width: width * 0.8, height: height * 0.2 },
           ]}
         >
-          <View style={{ marginBottom: 15 }}>
-            <Text style={{ fontSize: 16, color: "#f1f5f9" }}>{children}</Text>
+          <View style={styles.textContainer}>
+            <Text style={styles.loadingText}>{children}</Text>
           </View>
           <View>
             <ActivityIndicator color={"#F97316"} size={"large"} />
@@ -43,6 +43,13 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "#1e293b",
+  },
+  textContainer: {
+    marginBottom: 15,
+  },
+  loadingText: {
+    fontSize: 16,
+    color: "#f1f5f9",
   },
 });
 

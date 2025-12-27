@@ -22,7 +22,7 @@ export const createMealsTable = async (db) => {
     await db.executeSql(query);
     console.log("Table berhasil dibuat.");
   } catch (err) {
-    throw new Error("Terjadi kesalahan saat membuat table: ", err);
+    throw new Error("Terjadi kesalahan saat membuat table: ", err.message);
   }
 };
 
@@ -42,7 +42,7 @@ export const insertFavMeal = async (db, meal) => {
     await db.executeSql(query, Object.values(readyMeal));
     console.log("Data baru berhasil ditambahkan.");
   } catch (err) {
-    throw new Error("Gagal menambahkan data: ", err);
+    throw new Error("Gagal menambahkan data: ", err.message);
   }
 };
 
@@ -61,7 +61,7 @@ export const selectFavMeal = async (db) => {
 
     return meals;
   } catch (err) {
-    throw new Error("Gagal mengambil data: ", err);
+    throw new Error("Gagal mengambil data: ", err.message);
   }
 };
 
@@ -81,7 +81,7 @@ export const isMealFavorite = async (db, id) => {
       return true;
     }
   } catch (error) {
-    throw new Error(`Gagal menemukan data dengan id = ${id}: ${err}`);
+    throw new Error(`Gagal menemukan data dengan id = ${id}: ${error.message}`);
   }
 };
 
@@ -94,6 +94,6 @@ export const deleteFavMeal = async (db, id) => {
 
     console.log(`Data dengan id = ${id} berhasil dihapus`);
   } catch (err) {
-    throw new Error(`Gagal menghapus data dengan id = ${id}: ${err}`);
+    throw new Error(`Gagal menghapus data dengan id = ${id}: ${err.message}`);
   }
 };

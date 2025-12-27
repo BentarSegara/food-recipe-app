@@ -2,6 +2,7 @@ import { Menu, Search, Utensils } from "lucide-react-native";
 import React from "react";
 import {
   Pressable,
+  StyleSheet,
   Text,
   TextInput,
   useWindowDimensions,
@@ -15,19 +16,10 @@ const Header = () => {
   const { width, height } = useWindowDimensions();
   return (
     <View
-      style={{
-        height: height * 0.16,
-        justifyContent: "flex-end",
-        backgroundColor: "#F97316",
-      }}
+      style={[styles.headerContainer, { height: height * 0.16 }]}
     >
       <View
-        style={{
-          width: width * 0.8,
-          paddingHorizontal: 5,
-          flexDirection: "row",
-          alignItems: "center",
-        }}
+        style={[styles.topRow, { width: width * 0.8 }]}
       >
         <View>
           <Pressable onPress={() => navigation.openDrawer()}>
@@ -35,14 +27,10 @@ const Header = () => {
           </Pressable>
         </View>
         <View
-          style={{
-            flexDirection: "row",
-            marginLeft: 10,
-            alignItems: "center",
-          }}
+          style={styles.titleContainer}
         >
           <Utensils color={"#FFFFFF"} size={25} />
-          <Text style={{ fontSize: 20, fontWeight: "bold", color: "#FFFFFF" }}>
+          <Text style={styles.titleText}>
             {"  "}
             What's in My Fridge?
           </Text>
@@ -52,5 +40,27 @@ const Header = () => {
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  headerContainer: {
+    justifyContent: "flex-end",
+    backgroundColor: "#F97316",
+  },
+  topRow: {
+    paddingHorizontal: 5,
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  titleContainer: {
+    flexDirection: "row",
+    marginLeft: 10,
+    alignItems: "center",
+  },
+  titleText: {
+    fontSize: 20,
+    fontWeight: "bold",
+    color: "#FFFFFF",
+  },
+});
 
 export default Header;

@@ -3,6 +3,8 @@ import { MapPin, Tag } from "lucide-react-native";
 import React, { useEffect } from "react";
 import {
   Image,
+  Pressable,
+  StyleSheet,
   Text,
   TouchableOpacity,
   useWindowDimensions,
@@ -14,54 +16,49 @@ const FoodCard = ({ food }) => {
   const { width, height } = useWindowDimensions();
   const attributeCount = Object.keys(food).length;
 
+  const toDetail = () => {
+    navigation.navigate("Detail", {
+      screen: "DetailPage",
+      params: {
+        meal: food,
+      },
+    });
+  };
+
   return (
     <View
-      style={{
-        width: width * 0.45,
-        height: height * (attributeCount > 3 ? 0.3 : 0.2),
-        marginRight: 8,
-        marginBottom: 15,
-        elevation: 5,
-        borderRadius: 10,
-        backgroundColor: "#FFFFFF",
-      }}
+      style={[
+        styles.cardContainer,
+        {
+          width: width * 0.45,
+          height: height * (attributeCount > 3 ? 0.3 : 0.2),
+        },
+      ]}
     >
-      <View
-        style={{
-          flex: 1.5,
-          borderRadius: 10,
-          overflow: "hidden",
-          backgroundColor: "#FFEDD5",
-        }}
+      <Pressable
+        style={styles.imageContainer}
+        onPress={toDetail}
       >
         <Image style={{ flex: 1 }} source={{ uri: food.thumbnail }} />
-      </View>
+      </Pressable>
       <View
-        style={{
-          flex: 1,
-          padding: 5,
-          justifyContent: "center",
-        }}
+        style={styles.contentContainer}
       >
         <View style={{ marginBottom: 5 }}>
           <Text
             numberOfLines={1}
-            style={{
-              fontWeight: "bold",
-              color: "#1F2937",
-              textAlign: "center",
-            }}
+            style={styles.mealTitle}
           >
             {food.meal}
           </Text>
         </View>
         {food.category && food.area && (
           <View style={{ marginBottom: 5 }}>
-            <View style={{ flexDirection: "row", alignItems: "center" }}>
+            <View style={styles.attributeRow}>
               <Tag size={12} color={"#FB923C"} />
               <Text style={{ fontSize: 12 }}> {food.category}</Text>
             </View>
-            <View style={{ flexDirection: "row", alignItems: "center" }}>
+            <View style={styles.attributeRow}>
               <MapPin size={12} color={"#FB923C"} />
               <Text style={{ fontSize: 12 }}> {food.area}</Text>
             </View>
@@ -69,24 +66,10 @@ const FoodCard = ({ food }) => {
         )}
 
         <TouchableOpacity
-          onPress={() => {
-            console.log(food.meal);
-            navigation.navigate("Detail", {
-              screen: "DetailPage",
-              params: {
-                meal: food,
-              },
-            });
-          }}
-          style={{
-            padding: 5,
-            borderRadius: 5,
-            justifyContent: "center",
-            alignItems: "center",
-            backgroundColor: "#F97316",
-          }}
+          onPress={toDetail}
+          style={styles.viewButton}
         >
-          <Text style={{ fontWeight: "500", color: "#FFFFFF" }}>
+          <Text style={styles.viewButtonText}>
             View Recipe
           </Text>
         </TouchableOpacity>
@@ -94,5 +77,46 @@ const FoodCard = ({ food }) => {
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  cardContainer: {
+    marginRight: 8,
+    marginBottom: 15,
+    elevation: 5,
+    borderRadius: 10,
+    backgroundColor: "#FFFFFF",
+  },
+  imageContainer: {
+    flex: 1.5,
+    borderRadius: 10,
+    overflow: "hidden",
+    backgroundColor: "#FFEDD5",
+  },
+  contentContainer: {
+    flex: 1,
+    padding: 5,
+    justifyContent: "center",
+  },
+  mealTitle: {
+    fontWeight: "bold",
+    color: "#1F2937",
+    textAlign: "center",
+  },
+  attributeRow: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  viewButton: {
+    padding: 5,
+    borderRadius: 5,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#F97316",
+  },
+  viewButtonText: {
+    fontWeight: "500",
+    color: "#FFFFFF",
+  },
+});
 
 export default FoodCard;
