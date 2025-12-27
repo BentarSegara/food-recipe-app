@@ -50,12 +50,6 @@ Desain antarmuka yang bersih dan modern dengan tema warna oranye yang hangat, me
 
 ---
 
-## 📸 Screenshot
-
-> _Screenshot aplikasi akan ditampilkan di sini_
-
----
-
 ## 🛠 Teknologi
 
 ### Frontend
