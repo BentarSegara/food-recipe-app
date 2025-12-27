@@ -2,9 +2,11 @@
 
 **What's in My Fridge?** adalah aplikasi mobile pencari resep makanan yang membantu Anda menemukan resep berdasarkan bahan-bahan yang tersedia di kulkas Anda. Tidak perlu bingung lagi mau masak apa! Cukup masukkan bahan yang Anda miliki, dan aplikasi akan memberikan rekomendasi resep yang sempurna.
 
-![React Native](https://img.shields.io/badge/React_Native-0.81.5-61DAFB?style=for-the-badge&logo=react&logoColor=white)
-![Expo](https://img.shields.io/badge/Expo-54.0.25-000020?style=for-the-badge&logo=expo&logoColor=white)
-![License](https://img.shields.io/badge/License-Private-red?style=for-the-badge)
+<p>
+<img src="https://img.shields.io/badge/React_Native-0.81.5-61DAFB?logo=react" alt="React Native">
+<img src="https://img.shields.io/badge/Expo-54.0.29-000020?logo=expo" alt="Expo">
+<img src="https://img.shields.io/badge/License-Private-red?logo=license-private" alt="License">
+</p>
 
 ---
 
